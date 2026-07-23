@@ -10,7 +10,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "sync:awesome": "node scripts/sync-awesome.mjs"
+    "sync:awesome": "node scripts/sync-awesome.mjs",
+    "dns:freestack": "bash scripts/dns-freestack.sh"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
