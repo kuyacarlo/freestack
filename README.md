@@ -43,6 +43,36 @@ Append an object to `tools` in `src/data/tools.ts`:
 
 Keep blurbs blunt. Always include a real limit string.
 
+## API
+
+Public JSON (CORS open). Base: `https://freestack.kuyacarlo.dev`
+
+| Endpoint | Purpose |
+| --- | --- |
+| `GET /api/health` | Service ping + endpoint list |
+| `GET\|POST /api/claim` | Ordered claim/setup plan from profile flags |
+| `GET /api/tools` | Filter/search catalog (`category`, `cost`, `commercial`, `student`, `q`, `limit`) |
+| `GET /api/tools/:id` | Single tool |
+
+Claim query/body flags: `student`, `commercial`, `ph`, `ai` (`1`/`true`/`yes`; AI defaults on).
+
+```bash
+curl -s 'https://freestack.kuyacarlo.dev/api/claim?student=1&commercial=1' | jq .stackHint
+curl -s 'https://freestack.kuyacarlo.dev/api/tools?category=ai&commercial=yes&limit=5'
+```
+
+## CLI
+
+Package: [`packages/cli`](packages/cli) → `@kuyacarlo/freestack`
+
+```bash
+npx @kuyacarlo/freestack claim --student --commercial
+npx @kuyacarlo/freestack tools --category ai --commercial yes
+npx @kuyacarlo/freestack tool neon
+```
+
+Override API base with `FREESTACK_API` (default production site).
+
 ## Sibling list
 
 Markdown mirror (awesome.re style): [`awesome-freestack`](../awesome-freestack). Site `tools.ts` is source of truth for the directory UI.
