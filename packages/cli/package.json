@@ -1,0 +1,29 @@
+{
+  "name": "@kuyacarlo/freestack",
+  "version": "0.1.0",
+  "description": "CLI for freestack claim checklists and tool lookup",
+  "type": "module",
+  "bin": {
+    "freestack": "./bin/freestack.js"
+  },
+  "files": [
+    "bin"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "freestack",
+    "student",
+    "startup",
+    "free-tier",
+    "cli"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kuyacarlo/freestack.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://freestack.kuyacarlo.dev"
+}
