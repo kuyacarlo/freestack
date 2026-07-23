@@ -85,4 +85,4 @@ Markdown mirror (awesome.re style): [`awesome-freestack`](../awesome-freestack).
 
 ## License
 
-Site code: MIT (or as published). Catalog content intended as public reference.
+Site and CLI code: [MIT](LICENSE). Catalog content is public reference; the markdown mirror [`awesome-freestack`](https://github.com/kuyacarlo/awesome-freestack) is CC0.
