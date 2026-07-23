@@ -41,14 +41,17 @@ echo "Looking up existing record ${FQDN}…"
 LIST_JSON=$(curl -sS "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records?type=CNAME&name=${FQDN}" "${AUTH[@]}")
 REC_ID=$(python3 -c 'import json,sys; d=json.load(sys.stdin); r=d.get("result") or []; print(r[0]["id"] if r else "")' <<<"$LIST_JSON")
 
-BODY=$(python3 -c "import json; print(json.dumps({
-  'type': 'CNAME',
-  'name': '${RECORD_NAME}',
-  'content': '${TARGET}',
-  'ttl': 1,
-  'proxied': ${PROXIED},
-  'comment': 'freestack → Vercel'
-}))")
+BODY=$(PROXIED_JSON="$PROXIED" RECORD_NAME="$RECORD_NAME" TARGET="$TARGET" python3 -c '
+import json, os
+print(json.dumps({
+  "type": "CNAME",
+  "name": os.environ["RECORD_NAME"],
+  "content": os.environ["TARGET"],
+  "ttl": 1,
+  "proxied": os.environ["PROXIED_JSON"].lower() == "true",
+  "comment": "freestack → Vercel",
+}))
+')
 
 if [[ -n "$REC_ID" ]]; then
   echo "Updating record ${REC_ID} → ${TARGET} (proxied=${PROXIED})…"
@@ -60,15 +63,11 @@ else
     "${AUTH[@]}" --data "$BODY")
 fi
 
-python3 - <<'PY' <<<"$RESP"
-import json, sys
-d = json.load(sys.stdin)
+echo "$RESP" | python3 -c 'import json,sys; d=json.load(sys.stdin); 
+import sys as _s
 if not d.get("success"):
-    print(json.dumps(d, indent=2))
-    sys.exit(1)
-r = d["result"]
-print(f"OK  {r['name']}  CNAME  {r['content']}  proxied={r['proxied']}")
-PY
+  print(json.dumps(d, indent=2)); _s.exit(1)
+r=d["result"]; print("OK ", r["name"], " CNAME ", r["content"], " proxied=", r["proxied"], sep="")'
 
 echo
 echo "Verify:"
