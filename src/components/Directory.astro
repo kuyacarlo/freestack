@@ -82,6 +82,14 @@ const initialIndex = Math.max(
             class="ds-input"
           />
         </label>
+        <button
+          type="button"
+          id="preset-commercial-free"
+          class="ds-chip shrink-0"
+          title="Commercial OK + free forever"
+        >
+          preset · commercial free
+        </button>
       </div>
 
       <div
@@ -197,6 +205,12 @@ const initialIndex = Math.max(
                     <div class="font-mono text-[0.72rem] leading-relaxed text-ink-2">
                       <span class="text-ink-3">limits · </span>
                       {t.limits}
+                      {t.verified && (
+                        <>
+                          <br />
+                          <span class="text-ink-3">verified · {t.verified}</span>
+                        </>
+                      )}
                     </div>
                     <div class="flex flex-wrap gap-1.5 sm:justify-end">
                       <span class="ds-badge">{costLabel[t.cost]}</span>
@@ -289,6 +303,24 @@ const initialIndex = Math.max(
 
   qInput?.addEventListener("input", () => {
     state.q = qInput.value.trim().toLowerCase();
+    apply();
+  });
+
+  document.getElementById("preset-commercial-free")?.addEventListener("click", () => {
+    // exclusive chip groups → free + commercial yes
+    const setGroup = (key: "cost" | "student" | "commercial", value: string) => {
+      const group = document.querySelector<HTMLElement>(`[data-filter-group="${key}"]`);
+      if (!group) return;
+      group.querySelectorAll<HTMLButtonElement>(".ds-chip").forEach((c) => {
+        const on = c.dataset.value === value;
+        c.classList.toggle("is-active", on);
+        c.setAttribute("aria-checked", on ? "true" : "false");
+      });
+      state[key] = value;
+    };
+    setGroup("cost", "free");
+    setGroup("commercial", "yes");
+    setGroup("student", "all");
     apply();
   });
 
