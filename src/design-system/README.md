@@ -5,7 +5,6 @@ Local, in-repo. Not a published package.
 ## Why here, not a shared lib yet
 
 - One consumer (`freestack`). Extract a package when a second project needs the same tokens.
-- Portfolio at kuyacarlo.dev was Claude-generated — use it as *mood* reference only, not as ownership of a brand system.
 - Evolve intentional decisions in `tokens.css` + `components.css`.
 
 ## Tokens
