@@ -1,0 +1,302 @@
+---
+import { CATEGORIES, tools, type Tool } from "../data/tools";
+
+const costLabel: Record<Tool["cost"], string> = {
+  free: "free forever",
+  credits: "credits",
+  student_free: "student free",
+  discount: "discount",
+};
+
+const whoLabel: Record<Tool["student"], string> = {
+  no: "anyone",
+  required: "student",
+  helps: "student helps",
+};
+
+const commercialLabel: Record<Tool["commercial"], string> = {
+  yes: "commercial ok",
+  hobby: "hobby only",
+  edu: "edu only",
+  check: "check ToS",
+};
+
+const defaultCategory = CATEGORIES[0]?.id ?? "databases";
+---
+
+<section id="directory" class="pb-24">
+  <div class="ds-wrap">
+    <div
+      id="filters"
+      class="sticky top-[var(--nav-h)] z-40 -mx-[clamp(1.25rem,4vw,4.5rem)] border-b border-b1 bg-[#0d0c0bf2] px-[clamp(1.25rem,4vw,4.5rem)] py-4 backdrop-blur-md"
+    >
+      <div class="mb-1 flex items-center justify-between gap-3">
+        <p class="font-mono text-[0.68rem] tracking-wide text-ink-3 uppercase">
+          Category
+        </p>
+        <p id="count" class="font-mono text-[0.72rem] text-ink-3">
+          {tools.filter((t) => t.category === defaultCategory).length} tools
+        </p>
+      </div>
+
+      <!-- single-select category switch -->
+      <div
+        class="ds-switch"
+        data-variant="tabs"
+        role="tablist"
+        aria-label="Tool category"
+        id="category-switch"
+      >
+        {
+          CATEGORIES.map((cat, i) => (
+            <button
+              type="button"
+              role="tab"
+              class:list={["ds-tab", i === 0 && "is-active"]}
+              aria-selected={i === 0 ? "true" : "false"}
+              data-category={cat.id}
+              id={`tab-${cat.id}`}
+            >
+              {cat.label}
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="mt-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+        <label class="relative block min-w-0 flex-1 lg:max-w-md">
+          <span class="sr-only">Search tools</span>
+          <input
+            id="q"
+            type="search"
+            placeholder="Search within category…"
+            class="ds-input"
+          />
+        </label>
+      </div>
+
+      <div
+        class="ds-switch mt-3"
+        data-filter-group="cost"
+        role="radiogroup"
+        aria-label="Cost"
+      >
+        <button type="button" role="radio" aria-checked="true" data-value="all" class="ds-chip is-active"
+          >all costs</button
+        >
+        <button type="button" role="radio" aria-checked="false" data-value="free" class="ds-chip"
+          >free forever</button
+        >
+        <button type="button" role="radio" aria-checked="false" data-value="credits" class="ds-chip"
+          >credits</button
+        >
+        <button
+          type="button"
+          role="radio"
+          aria-checked="false"
+          data-value="student_free"
+          class="ds-chip">student free</button
+        >
+        <button type="button" role="radio" aria-checked="false" data-value="discount" class="ds-chip"
+          >discount</button
+        >
+      </div>
+      <div
+        class="ds-switch mt-2"
+        data-filter-group="student"
+        role="radiogroup"
+        aria-label="Eligibility"
+      >
+        <button type="button" role="radio" aria-checked="true" data-value="all" class="ds-chip is-active"
+          >anyone + student</button
+        >
+        <button type="button" role="radio" aria-checked="false" data-value="no" class="ds-chip"
+          >anyone</button
+        >
+        <button type="button" role="radio" aria-checked="false" data-value="required" class="ds-chip"
+          >student required</button
+        >
+        <button type="button" role="radio" aria-checked="false" data-value="helps" class="ds-chip"
+          >student helps</button
+        >
+      </div>
+      <div
+        class="ds-switch mt-2"
+        data-filter-group="commercial"
+        role="radiogroup"
+        aria-label="Commercial use"
+      >
+        <button type="button" role="radio" aria-checked="true" data-value="all" class="ds-chip is-active"
+          >all use</button
+        >
+        <button type="button" role="radio" aria-checked="false" data-value="yes" class="ds-chip"
+          >commercial ok</button
+        >
+        <button type="button" role="radio" aria-checked="false" data-value="hobby" class="ds-chip"
+          >hobby only</button
+        >
+        <button type="button" role="radio" aria-checked="false" data-value="edu" class="ds-chip"
+          >edu only</button
+        >
+      </div>
+    </div>
+
+    <div id="empty" class="mt-16 hidden text-center">
+      <p class="text-ink-2">Nothing in this category matches. Loosen a filter.</p>
+    </div>
+
+    {
+      CATEGORIES.map((cat, i) => {
+        const items = tools.filter((t) => t.category === cat.id);
+        if (!items.length) return null;
+        return (
+          <section
+            class:list={["cat-panel mt-12", i !== 0 && "is-hidden"]}
+            data-category={cat.id}
+            role="tabpanel"
+            aria-labelledby={`tab-${cat.id}`}
+            hidden={i !== 0}
+          >
+            <div class="ds-section-label !mb-6">
+              <span class="ds-section-num">{cat.num}</span>
+              <span class="ds-section-name">{cat.label}</span>
+              <span class="ds-hairline flex-1" />
+              <span class="font-mono text-[0.72rem] text-ink-3 cat-count">{items.length}</span>
+            </div>
+            <ul class="divide-y divide-b1 border-y border-b1" role="list">
+              {items.map((t) => (
+                <li
+                  class="ds-tool-row tool-row group"
+                  data-name={t.name.toLowerCase()}
+                  data-blurb={t.blurb.toLowerCase()}
+                  data-limits={t.limits.toLowerCase()}
+                  data-tags={(t.tags ?? []).join(" ").toLowerCase()}
+                  data-cost={t.cost}
+                  data-student={t.student}
+                  data-commercial={t.commercial}
+                  data-category={t.category}
+                >
+                  <a href={t.url} target="_blank" rel="noopener noreferrer">
+                    <div class="min-w-0">
+                      <div class="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                        <span class="ds-tool-name">{t.name}</span>
+                        <span class="font-mono text-[0.68rem] text-ink-3">↗</span>
+                      </div>
+                      <p class="mt-1 text-[0.92rem] leading-relaxed text-ink-2">{t.blurb}</p>
+                    </div>
+                    <div class="font-mono text-[0.72rem] leading-relaxed text-ink-2">
+                      <span class="text-ink-3">limits · </span>
+                      {t.limits}
+                    </div>
+                    <div class="flex flex-wrap gap-1.5 sm:justify-end">
+                      <span class="ds-badge">{costLabel[t.cost]}</span>
+                      <span class="ds-badge">{whoLabel[t.student]}</span>
+                      <span class="ds-badge">{commercialLabel[t.commercial]}</span>
+                    </div>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        );
+      })
+    }
+  </div>
+</section>
+
+<style>
+  .tool-row.is-hidden {
+    display: none;
+  }
+  .cat-panel.is-hidden,
+  .cat-panel[hidden] {
+    display: none;
+  }
+</style>
+
+<script>
+  const state = {
+    category: document.querySelector<HTMLElement>(".ds-tab.is-active")?.dataset.category ?? "databases",
+    q: "",
+    cost: "all",
+    student: "all",
+    commercial: "all",
+  };
+
+  const rows = [...document.querySelectorAll<HTMLElement>(".tool-row")];
+  const panels = [...document.querySelectorAll<HTMLElement>(".cat-panel")];
+  const tabs = [...document.querySelectorAll<HTMLButtonElement>(".ds-tab")];
+  const countEl = document.getElementById("count");
+  const emptyEl = document.getElementById("empty");
+  const qInput = document.getElementById("q") as HTMLInputElement | null;
+
+  function apply() {
+    // show only active category panel
+    for (const panel of panels) {
+      const active = panel.dataset.category === state.category;
+      panel.classList.toggle("is-hidden", !active);
+      panel.hidden = !active;
+    }
+
+    let visible = 0;
+    for (const row of rows) {
+      const inCat = row.dataset.category === state.category;
+      const okCost = state.cost === "all" || row.dataset.cost === state.cost;
+      const okStudent =
+        state.student === "all" || row.dataset.student === state.student;
+      const okCommercial =
+        state.commercial === "all" ||
+        row.dataset.commercial === state.commercial;
+      const hay = `${row.dataset.name} ${row.dataset.blurb} ${row.dataset.limits} ${row.dataset.tags}`;
+      const okQ = !state.q || hay.includes(state.q);
+      const show = inCat && okCost && okStudent && okCommercial && okQ;
+      row.classList.toggle("is-hidden", !show);
+      if (show) visible++;
+    }
+
+    const activePanel = panels.find((p) => p.dataset.category === state.category);
+    const c = activePanel?.querySelector(".cat-count");
+    if (c) c.textContent = String(visible);
+
+    if (countEl) countEl.textContent = `${visible} tool${visible === 1 ? "" : "s"}`;
+    emptyEl?.classList.toggle("hidden", visible !== 0);
+  }
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      tabs.forEach((t) => {
+        t.classList.remove("is-active");
+        t.setAttribute("aria-selected", "false");
+      });
+      tab.classList.add("is-active");
+      tab.setAttribute("aria-selected", "true");
+      state.category = tab.dataset.category ?? state.category;
+      state.q = "";
+      if (qInput) qInput.value = "";
+      apply();
+    });
+  });
+
+  qInput?.addEventListener("input", () => {
+    state.q = qInput.value.trim().toLowerCase();
+    apply();
+  });
+
+  document.querySelectorAll<HTMLElement>("[data-filter-group]").forEach((group) => {
+    const key = group.dataset.filterGroup as "cost" | "student" | "commercial";
+    group.querySelectorAll<HTMLButtonElement>(".ds-chip").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        group.querySelectorAll(".ds-chip").forEach((c) => {
+          c.classList.remove("is-active");
+          c.setAttribute("aria-checked", "false");
+        });
+        btn.classList.add("is-active");
+        btn.setAttribute("aria-checked", "true");
+        state[key] = btn.dataset.value ?? "all";
+        apply();
+      });
+    });
+  });
+
+  apply();
+</script>

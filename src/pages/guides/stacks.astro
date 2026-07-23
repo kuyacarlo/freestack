@@ -1,0 +1,97 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+const stacks = [
+  {
+    num: "01",
+    title: "Student · $0 learning",
+    blurb: "Schoolwork and side projects. Mix Pack unlocks with forever-free SaaS.",
+    rows: [
+      ["Editor", "JetBrains + Copilot"],
+      ["Host", "Cloudflare Pages or burn DO/Azure credits"],
+      ["DB", "Neon or Turso free"],
+      ["Auth", "Clerk / Kinde free"],
+      ["Design", "Figma Education"],
+      ["CAD / numerics", "Autodesk Edu + MATLAB Online"],
+      ["Observe", "Sentry (Pack) + PostHog free"],
+      ["Secrets", "Doppler (Pack)"],
+      ["Domain", "Namecheap .me when ready"],
+    ],
+  },
+  {
+    num: "02",
+    title: "Not a student / alumni · $0–low",
+    blurb: "No school email. Lean on forever free tiers and Always Free VMs.",
+    rows: [
+      ["Editor", "VS Code + Copilot paid, or Cursor Hobby"],
+      ["Host", "Cloudflare / Render / Koyeb"],
+      ["DB", "Neon + Upstash"],
+      ["Auth", "Clerk free"],
+      ["Design", "Figma Starter"],
+      ["Storage", "Cloudflare R2"],
+      ["Email", "Resend free"],
+      ["Observe", "PostHog + Sentry free"],
+      ["VMs", "Oracle Always Free"],
+    ],
+  },
+  {
+    num: "03",
+    title: "Student shipping a real product",
+    blurb: "Commercial-OK free tiers for prod. Edu licenses stay on coursework.",
+    rows: [
+      ["Host", "Cloudflare / Koyeb — not Vercel Hobby"],
+      ["DB", "Neon / Turso / Supabase free"],
+      ["Auth", "Clerk / Kinde"],
+      ["Email", "Resend"],
+      ["Jobs", "Inngest"],
+      ["Storage", "R2 (zero egress)"],
+      ["IDE", "Buy JetBrains commercial when money lands"],
+      ["Design", "Figma paid seat for client work"],
+    ],
+  },
+];
+---
+
+<Layout title="stacks · freestack." description="Starter stacks for students and alumni.">
+  <section class="ds-wrap py-[88px] sm:py-[110px]">
+    <div class="ds-section-label">
+      <span class="ds-section-num">02</span>
+      <span class="ds-section-name">Starter stacks</span>
+      <span class="ds-hairline flex-1"></span>
+    </div>
+
+    <h1
+      class="mb-5 max-w-3xl text-[clamp(2.2rem,5vw,3.6rem)] leading-[1.05] font-bold tracking-[-0.03em]"
+    >
+      Pick a lane.<br />
+      <span class="text-ink-3">Don’t mix edu licenses into prod.</span>
+    </h1>
+    <p class="mb-16 max-w-xl text-ink-2">
+      Three opinionated defaults. Swap pieces freely — just watch the commercial chip on
+      each tool.
+    </p>
+
+    <div class="space-y-16">
+      {
+        stacks.map((s) => (
+          <section>
+            <div class="ds-section-label !mb-6">
+              <span class="ds-section-num">{s.num}</span>
+              <h2 class="text-xl font-semibold tracking-tight text-ink">{s.title}</h2>
+              <span class="ds-hairline flex-1" />
+            </div>
+            <p class="mb-6 max-w-xl text-ink-2">{s.blurb}</p>
+            <dl class="divide-y divide-b1 border-y border-b1">
+              {s.rows.map(([k, v]) => (
+                <div class="grid gap-1 py-3.5 sm:grid-cols-[10rem_1fr] sm:gap-6">
+                  <dt class="font-mono text-[0.72rem] text-ink-3">{k}</dt>
+                  <dd class="text-[0.95rem] text-ink">{v}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        ))
+      }
+    </div>
+  </section>
+</Layout>
