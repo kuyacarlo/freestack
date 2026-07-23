@@ -1,0 +1,212 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+const acts = [
+  {
+    num: "01",
+    title: "Stay commercial-OK",
+    body: "Edu licenses (JetBrains Edu, Figma Education, Autodesk, MATLAB Campus-Wide) are for learning. Production for a company — even a tiny one — needs seats and ToS that allow commercial use. Vercel Hobby is the same trap.",
+  },
+  {
+    num: "02",
+    title: "Buy outcomes, not platforms",
+    body: "Default to Cloudflare + Neon/Turso + Clerk + Resend + R2 + PostHog. Add a hyperscaler only when you have a concrete reason (GPU batch, compliance region, Activate credits that expire).",
+  },
+  {
+    num: "03",
+    title: "AI is a line item — meter it",
+    body: "Route drafts through cheap/fast models (Groq, Gemini free quota, Workers AI, OpenRouter free models). Keep Claude/GPT on the hard path. Put Langfuse or Helicone in front before the first customer demo so spend is visible.",
+  },
+  {
+    num: "04",
+    title: "Claim startup credits once you are real",
+    body: "AWS Activate, Google for Startups, Microsoft for Startups — apply when you have incorporation or an accelerator letter. Burn credits on load tests and GPU jobs, not idle VMs.",
+  },
+  {
+    num: "05",
+    title: "Ops stack that doesn't need a COO",
+    body: "Cal.com for bookings, Linear for issues, Chatwoot/Crisp for support, Lemon Squeezy or Paddle when you sell globally and hate VAT paperwork. Notion Free until SAML is forced on you.",
+  },
+];
+
+const leanStack = [
+  ["Edge / web", "Cloudflare Pages + Workers (commercial OK)"],
+  ["API", "Koyeb micro or Workers — skip always-on beef until traffic"],
+  ["DB", "Neon or Turso free → paid when storage wakes you up"],
+  ["Auth", "Clerk / Kinde free MAU"],
+  ["Email", "Resend free → Pro when deliverability matters"],
+  ["Files", "R2 — zero egress for user downloads"],
+  ["Jobs", "Inngest free steps"],
+  ["Analytics", "PostHog free events"],
+  ["LLM gateway", "OpenRouter + spend cap · Helicone/Langfuse"],
+  ["Default model", "Gemini / Groq / Workers AI for bulk"],
+  ["Frontier model", "Claude or GPT only on tool-critical steps"],
+  ["Payments", "Lemon Squeezy / Paddle (MoR) or Stripe when ready"],
+];
+
+const aiRules = [
+  {
+    title: "Cache & dedupe",
+    body: "Identical prompts should not hit the API twice. Helicone caching or your own KV on R2/Workers buys real money back.",
+  },
+  {
+    title: "Structured outputs > chat soup",
+    body: "JSON schemas and tool calls fail cheaper than free-form prose you re-parse with another model.",
+  },
+  {
+    title: "Eval before scale",
+    body: "A 50-row golden set in Langfuse beats vibes. Don't raise temperature and hope.",
+  },
+  {
+    title: "Human in the loop where liability lives",
+    body: "Tech-adjacent (health, finance, legal-ish ops): AI drafts, humans approve. Cheaper than one incident.",
+  },
+];
+
+const phases = [
+  {
+    num: "0",
+    title: "Pre-revenue prototype",
+    spend: "~$0–30/mo",
+    points: [
+      "Forever-free SaaS only (see directory filters: commercial ok)",
+      "Student Pack if you still qualify — don't put edu tools in prod",
+      "Oracle Always Free or Koyeb micro if you need a long process",
+    ],
+  },
+  {
+    num: "1",
+    title: "First paying users",
+    spend: "~$30–200/mo",
+    points: [
+      "Turn on spend caps everywhere (OpenAI, Anthropic, OpenRouter, cloud)",
+      "Graduate Resend / Clerk / Neon when free limits page you at night",
+      "Apply Activate / Google for Startups if incorporated",
+    ],
+  },
+  {
+    num: "2",
+    title: "Team of 3–10",
+    spend: "intentional",
+    points: [
+      "Linear + shared PostHog + one observability bill (Sentry)",
+      "Drop self-host chores that aren't your moat",
+      "Revisit Fly/AWS only with a region or compliance story",
+    ],
+  },
+];
+---
+
+<Layout
+  title="startup lean · freestack."
+  description="Cost-efficient stack narrative for tech and tech-adjacent startups — including AI spend discipline."
+>
+  <section class="ds-wrap py-[88px] sm:py-[110px]">
+    <div class="ds-section-label">
+      <span class="ds-section-num">03</span>
+      <span class="ds-section-name">Startup lean</span>
+      <span class="ds-hairline flex-1"></span>
+    </div>
+
+    <h1
+      class="mb-5 max-w-3xl text-[clamp(2.2rem,5vw,3.6rem)] leading-[1.05] font-bold tracking-[-0.03em]"
+    >
+      Run a tech biz<br />
+      <span class="text-ink-3">without a burn narrative.</span>
+    </h1>
+    <p class="mb-6 max-w-2xl text-ink-2">
+      For founders and tiny teams shipping a product — SaaS, civic tech, ops tooling,
+      tech-adjacent services. The goal is not “zero forever.” It’s
+      <strong class="font-medium text-ink">known costs</strong>, commercial-safe licenses,
+      and AI that doesn’t melt the card.
+    </p>
+    <p class="mb-14 max-w-2xl text-[0.9rem] text-ink-3">
+      Pair this with the directory tabs
+      <a href="/?hint=startup" class="text-sand underline-offset-2 hover:underline">Startup lean</a>
+      and
+      <a href="/?hint=ai" class="text-sand underline-offset-2 hover:underline">AI & models</a>
+      — limits live there.
+    </p>
+
+    <ol class="mb-20 divide-y divide-b1 border-y border-b1">
+      {
+        acts.map((a) => (
+          <li class="grid gap-2 py-7 sm:grid-cols-[4rem_1fr] sm:gap-6">
+            <span class="font-mono text-[0.72rem] text-ink-3">{a.num}</span>
+            <div>
+              <h2 class="font-semibold tracking-tight text-ink">{a.title}</h2>
+              <p class="mt-2 text-[0.95rem] leading-relaxed text-ink-2">{a.body}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="ds-section-label">
+      <span class="ds-section-num">A</span>
+      <span class="ds-section-name">Default lean stack</span>
+      <span class="ds-hairline flex-1"></span>
+    </div>
+    <p class="mb-6 max-w-xl text-ink-2">
+      Swap pieces freely. Keep the commercial chip green.
+    </p>
+    <dl class="mb-20 divide-y divide-b1 border-y border-b1">
+      {
+        leanStack.map(([k, v]) => (
+          <div class="grid gap-1 py-3.5 sm:grid-cols-[10rem_1fr] sm:gap-6">
+            <dt class="font-mono text-[0.72rem] text-ink-3">{k}</dt>
+            <dd class="text-[0.95rem] text-ink">{v}</dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <div class="ds-section-label">
+      <span class="ds-section-num">B</span>
+      <span class="ds-section-name">AI spend rules</span>
+      <span class="ds-hairline flex-1"></span>
+    </div>
+    <div class="mb-20 grid gap-8 sm:grid-cols-2">
+      {
+        aiRules.map((r) => (
+          <div class="border-t border-b1 pt-5">
+            <h3 class="font-semibold tracking-tight text-ink">{r.title}</h3>
+            <p class="mt-2 text-[0.92rem] leading-relaxed text-ink-2">{r.body}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="ds-section-label">
+      <span class="ds-section-num">C</span>
+      <span class="ds-section-name">Phases</span>
+      <span class="ds-hairline flex-1"></span>
+    </div>
+    <div class="space-y-10">
+      {
+        phases.map((p) => (
+          <section class="border-t border-b1 pt-6">
+            <div class="mb-3 flex flex-wrap items-baseline gap-x-4 gap-y-1">
+              <span class="font-mono text-[0.72rem] text-ink-3">phase {p.num}</span>
+              <h3 class="text-lg font-semibold tracking-tight">{p.title}</h3>
+              <span class="font-mono text-[0.72rem] text-sand">{p.spend}</span>
+            </div>
+            <ul class="space-y-2 text-[0.95rem] text-ink-2">
+              {p.points.map((pt) => (
+                <li class="flex gap-2">
+                  <span class="text-ink-3">·</span>
+                  <span>{pt}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
+
+    <div class="mt-16 flex flex-wrap gap-2 border-t border-b1 pt-10">
+      <a href="/" class="ds-btn ds-btn-filled">Open directory</a>
+      <a href="/guides/stacks" class="ds-btn ds-btn-outline">Student stacks →</a>
+    </div>
+  </section>
+</Layout>

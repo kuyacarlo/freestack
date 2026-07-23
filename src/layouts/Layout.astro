@@ -69,6 +69,15 @@ const path = Astro.url.pathname;
             ]}>stacks</a
           >
           <a
+            href="/guides/startup"
+            class:list={[
+              "rounded-md px-2.5 py-1 text-[0.8rem] transition-colors",
+              path.startsWith("/guides/startup")
+                ? "text-ink"
+                : "text-ink-2 hover:bg-s1 hover:text-ink",
+            ]}>startup</a
+          >
+          <a
             href="https://github.com/kuyacarlo/awesome-freestack"
             target="_blank"
             rel="noopener noreferrer"
@@ -104,6 +113,7 @@ const path = Astro.url.pathname;
         >claim order</a
       >
       <a href="/guides/stacks" class="text-2xl font-semibold text-ink-2">stacks</a>
+      <a href="/guides/startup" class="text-2xl font-semibold text-ink-2">startup</a>
       <a
         href="https://github.com/kuyacarlo/awesome-freestack"
         class="text-2xl font-semibold text-ink-2">awesome list</a

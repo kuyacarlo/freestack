@@ -22,6 +22,15 @@ const commercialLabel: Record<Tool["commercial"], string> = {
 };
 
 const defaultCategory = CATEGORIES[0]?.id ?? "databases";
+
+// Allow /?hint=ai or /?hint=startup deep-links from guides
+const hint = Astro.url.searchParams.get("hint");
+const initialCategory =
+  hint && CATEGORIES.some((c) => c.id === hint) ? hint : defaultCategory;
+const initialIndex = Math.max(
+  0,
+  CATEGORIES.findIndex((c) => c.id === initialCategory),
+);
 ---
 
 <section id="directory" class="pb-24">
@@ -35,7 +44,7 @@ const defaultCategory = CATEGORIES[0]?.id ?? "databases";
           Category
         </p>
         <p id="count" class="font-mono text-[0.72rem] text-ink-3">
-          {tools.filter((t) => t.category === defaultCategory).length} tools
+          {tools.filter((t) => t.category === initialCategory).length} tools
         </p>
       </div>
 
@@ -52,8 +61,8 @@ const defaultCategory = CATEGORIES[0]?.id ?? "databases";
             <button
               type="button"
               role="tab"
-              class:list={["ds-tab", i === 0 && "is-active"]}
-              aria-selected={i === 0 ? "true" : "false"}
+              class:list={["ds-tab", i === initialIndex && "is-active"]}
+              aria-selected={i === initialIndex ? "true" : "false"}
               data-category={cat.id}
               id={`tab-${cat.id}`}
             >
@@ -149,13 +158,14 @@ const defaultCategory = CATEGORIES[0]?.id ?? "databases";
       CATEGORIES.map((cat, i) => {
         const items = tools.filter((t) => t.category === cat.id);
         if (!items.length) return null;
+        const active = cat.id === initialCategory;
         return (
           <section
-            class:list={["cat-panel mt-12", i !== 0 && "is-hidden"]}
+            class:list={["cat-panel mt-12", !active && "is-hidden"]}
             data-category={cat.id}
             role="tabpanel"
             aria-labelledby={`tab-${cat.id}`}
-            hidden={i !== 0}
+            hidden={!active}
           >
             <div class="ds-section-label !mb-6">
               <span class="ds-section-num">{cat.num}</span>
