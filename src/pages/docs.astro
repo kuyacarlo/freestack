@@ -23,19 +23,19 @@ import Layout from "../layouts/Layout.astro";
   </section>
 
   <div id="scalar-root" class="min-h-[75vh] border-t border-b1"></div>
-</Layout>
 
-<script
-  is:inline
-  src="https://cdn.jsdelivr.net/npm/@scalar/api-reference@1.28.11/dist/browser/standalone.js"
-></script>
-<script is:inline>
-  window.Scalar.createApiReference("#scalar-root", {
-    url: "/api/openapi.json",
-    theme: "deepSpace",
-    darkMode: true,
-    hideDarkModeToggle: true,
-    layout: "modern",
-    defaultHttpClient: { targetKey: "shell", clientKey: "curl" },
-  });
-</script>
+  <script
+    is:inline
+    src="https://cdn.jsdelivr.net/npm/@scalar/api-reference@1.28.11/dist/browser/standalone.js"
+  ></script>
+  <script is:inline>
+    window.Scalar.createApiReference("#scalar-root", {
+      url: "/api/openapi.json",
+      theme: "deepSpace",
+      darkMode: true,
+      hideDarkModeToggle: true,
+      layout: "modern",
+      defaultHttpClient: { targetKey: "shell", clientKey: "curl" },
+    });
+  </script>
+</Layout>
