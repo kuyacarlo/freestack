@@ -57,6 +57,60 @@ const steps = [
     href: "https://education.github.com/pack",
   },
 ];
+
+/** Directories — not a shout-out list of communities. */
+const altPaths = [
+  {
+    need: "Community seats for data courses",
+    where: "Vendor donate / partner networks",
+    href: "https://www.datacamp.com/donates",
+  },
+  {
+    need: "PH edtech & campus lists",
+    where: "Curated awesome lists",
+    href: "https://github.com/smmariquit/awesome-ph-edtech",
+  },
+  {
+    need: "PH student-life tooling list",
+    where: "Curated awesome list",
+    href: "https://github.com/smmariquit/awesomeph-studentlife",
+  },
+  {
+    need: "Find a campus developer club",
+    where: "Chapter directory",
+    href: "https://developers.google.com/community/gdsc",
+  },
+  {
+    need: "Corporate free learning tracks",
+    where: "CSR learning portals",
+    href: "https://skillsbuild.org/",
+  },
+  {
+    need: "More free corp / skilling portals",
+    where: "Regional grow programs · docs sandboxes",
+    href: "https://grow.google/intl/en_ph/certificates/",
+  },
+  {
+    need: "Certificate financial aid",
+    where: "Per-course aid forms",
+    href: "https://www.coursera.help/hc/en-us/articles/209819033-Apply-for-Financial-Aid",
+  },
+  {
+    need: "Paid OSS internships (seasonal)",
+    where: "Program application hubs",
+    href: "https://summerofcode.withgoogle.com/",
+  },
+  {
+    need: "Underrepresented FOSS stipends",
+    where: "Internship program hub",
+    href: "https://www.outreachy.org/",
+  },
+  {
+    need: "Production OSS fellowship tracks",
+    where: "Fellowship applications",
+    href: "https://fellowship.mlh.io/",
+  },
+];
 ---
 
 <Layout title="claim order · freestack." description="What to claim first as a student.">
@@ -79,9 +133,11 @@ const steps = [
     </p>
     <p class="mb-14 max-w-xl font-mono text-[0.85rem] text-ink-3">
       Same plan via API / CLI —
+      <a class="text-sand underline-offset-2 hover:underline" href="/docs">API docs</a>
+      ·
       <a class="text-sand underline-offset-2 hover:underline" href="/api/claim?student=1">/api/claim?student=1</a>
       ·
-      <code class="text-ink-2">npx @kuyacarlo/freestack claim --student</code>
+      <code class="text-ink-2">pnpm dlx @kuyacarlo/freestack claim --student</code>
     </p>
 
     <ol class="divide-y divide-b1 border-y border-b1">
@@ -105,5 +161,54 @@ const steps = [
         ))
       }
     </ol>
+
+    <div id="alt-paths" class="mt-20 scroll-mt-[calc(var(--nav-h)+1rem)]">
+      <div class="ds-section-label">
+        <span class="ds-section-num">10</span>
+        <span class="ds-section-name">More ways in</span>
+        <span class="ds-hairline flex-1"></span>
+      </div>
+      <p class="mb-8 max-w-xl text-ink-2">
+        Pack isn’t the only door. Use these <strong class="font-medium text-ink">directories</strong>{" "}
+        to find community scholarships, campus clubs, and corporate learning CSR — pick a partner
+        that fits you; we don’t pitch individual orgs here.
+      </p>
+      <ul class="divide-y divide-b1 border-y border-b1">
+        {
+          altPaths.map((row) => (
+            <li>
+              <a
+                href={row.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="grid gap-2 py-5 transition-colors hover:bg-s1/50 sm:grid-cols-[1fr_12rem_auto] sm:items-baseline sm:gap-6"
+              >
+                <span class="text-[0.95rem] text-ink">{row.need}</span>
+                <span class="font-mono text-[0.72rem] text-ink-3">{row.where}</span>
+                <span class="font-mono text-[0.72rem] text-ink-3">open ↗</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="mt-6 max-w-xl text-[0.85rem] text-ink-3">
+        Also worth a pass:{" "}
+        <a
+          class="text-sand underline-offset-2 hover:underline"
+          href="https://learn.microsoft.com/"
+          target="_blank"
+          rel="noopener noreferrer">docs sandboxes</a
+        >
+        ·
+        <a
+          class="text-sand underline-offset-2 hover:underline"
+          href="https://education.github.com/experts"
+          target="_blank"
+          rel="noopener noreferrer">campus leadership programs</a
+        >
+        · directory tab
+        <a class="text-sand underline-offset-2 hover:underline" href="/?hint=ph">PH & campus</a>.
+      </p>
+    </div>
   </section>
 </Layout>

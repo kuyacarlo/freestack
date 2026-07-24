@@ -18,6 +18,8 @@ export const GET: APIRoute = () =>
       tools: "GET /api/tools?category=ai&commercial=yes&cost=free&q=neon&limit=20",
       tool: "GET /api/tools/:id",
       health: "GET /api/health",
+      openapi: "GET /api/openapi.json",
+      docs: "/docs",
     },
     site: "https://freestack.kuyacarlo.dev",
   });

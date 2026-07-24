@@ -53,6 +53,8 @@ Public JSON (CORS open). Base: `https://freestack.kuyacarlo.dev`
 | `GET\|POST /api/claim` | Ordered claim/setup plan from profile flags |
 | `GET /api/tools` | Filter/search catalog (`category`, `cost`, `commercial`, `student`, `q`, `limit`) |
 | `GET /api/tools/:id` | Single tool |
+| `GET /api/openapi.json` | OpenAPI 3.1 spec |
+| [`/docs`](https://freestack.kuyacarlo.dev/docs) | Interactive docs (Scalar) |
 
 Claim query/body flags: `student`, `commercial`, `ph`, `ai` (`1`/`true`/`yes`; AI defaults on).
 
@@ -61,6 +63,7 @@ curl -s 'https://freestack.kuyacarlo.dev/api/claim?student=1&commercial=1' | jq 
 curl -s 'https://freestack.kuyacarlo.dev/api/tools?category=ai&commercial=yes&limit=5'
 ```
 
+Alternate claim directories (community scholarships, CSR learning, campus clubs): [`/guides/claim-order#alt-paths`](https://freestack.kuyacarlo.dev/guides/claim-order#alt-paths).
 ## CLI
 
 Package: [`packages/cli`](packages/cli) → `@kuyacarlo/freestack`

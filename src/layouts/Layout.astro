@@ -8,7 +8,7 @@ interface Props {
 
 const {
   title = "freestack.",
-  description = "Free developer tools and student unlocks — with limits, eligibility, and commercial notes.",
+  description = "Free developer tools and student unlocks — hard limits, eligibility, and commercial notes on every row.",
 } = Astro.props;
 
 const path = Astro.url.pathname;
@@ -78,6 +78,15 @@ const path = Astro.url.pathname;
             ]}>startup</a
           >
           <a
+            href="/docs"
+            class:list={[
+              "rounded-md px-2.5 py-1 text-[0.8rem] transition-colors",
+              path.startsWith("/docs")
+                ? "text-ink"
+                : "text-ink-2 hover:bg-s1 hover:text-ink",
+            ]}>api</a
+          >
+          <a
             href="https://github.com/kuyacarlo/awesome-freestack"
             target="_blank"
             rel="noopener noreferrer"
@@ -114,6 +123,7 @@ const path = Astro.url.pathname;
       >
       <a href="/guides/stacks" class="text-2xl font-semibold text-ink-2">stacks</a>
       <a href="/guides/startup" class="text-2xl font-semibold text-ink-2">startup</a>
+      <a href="/docs" class="text-2xl font-semibold text-ink-2">api</a>
       <a
         href="https://github.com/kuyacarlo/awesome-freestack"
         class="text-2xl font-semibold text-ink-2">awesome list</a
@@ -126,12 +136,18 @@ const path = Astro.url.pathname;
 
     <footer class="border-t border-b1 py-10">
       <div
-        class="ds-wrap flex flex-col gap-3 text-[0.8rem] text-ink-3 sm:flex-row sm:items-center sm:justify-between"
+        class="ds-wrap flex flex-col gap-3 text-[0.8rem] text-ink-3 sm:flex-row sm:items-start sm:justify-between"
       >
-        <p>
-          Limits drift. Re-check partner pages before you plan a launch on $0.
-        </p>
-        <p class="font-mono">
+        <div class="max-w-lg space-y-2">
+          <p>
+            Limits drift. Re-check partner pages before you plan a launch on $0.
+          </p>
+          <p>
+            Built with a Cursor subscription from
+            <span class="text-ink-2">Stimmie</span> — thanks for funding the tooling that shipped this.
+          </p>
+        </div>
+        <p class="font-mono shrink-0">
           freestack<em class="not-italic">.</em> · not affiliated with any vendor
         </p>
       </div>

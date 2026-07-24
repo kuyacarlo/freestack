@@ -205,6 +205,18 @@ export function buildClaimPlan(profile: ClaimProfile): {
     );
   }
 
+  if (profile.ph || profile.student) {
+    steps.push(
+      step(
+        num(),
+        "More ways in",
+        "Directories for community scholarships, campus clubs, and corporate learning CSR — not Pack-only.",
+        "https://freestack.kuyacarlo.dev/guides/claim-order#alt-paths",
+        ["awesome-ph-edtech", "awesome-ph-studentlife", "abakada"],
+      ),
+    );
+  }
+
   if (steps.length === 0) {
     steps.push(
       step(
