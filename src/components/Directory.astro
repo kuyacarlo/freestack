@@ -298,6 +298,7 @@ const initialIndex = Math.max(
       state.q = "";
       if (qInput) qInput.value = "";
       apply();
+      tab.scrollIntoView({ inline: "nearest", block: "nearest", behavior: "smooth" });
     });
   });
 
@@ -341,4 +342,25 @@ const initialIndex = Math.max(
   });
 
   apply();
+
+  // Trackpad/wheel on category tabs → sideways, not page vertical bounce
+  const catSwitch = document.getElementById("category-switch");
+  catSwitch?.addEventListener(
+    "wheel",
+    (e) => {
+      const el = catSwitch;
+      if (!el) return;
+      const dx = Math.abs(e.deltaX);
+      const dy = Math.abs(e.deltaY);
+      const delta = dx > dy ? e.deltaX : e.deltaY;
+      if (delta === 0) return;
+      const max = el.scrollWidth - el.clientWidth;
+      if (max <= 0) return;
+      const next = Math.min(max, Math.max(0, el.scrollLeft + delta));
+      if (next === el.scrollLeft) return;
+      e.preventDefault();
+      el.scrollLeft = next;
+    },
+    { passive: false },
+  );
 </script>
