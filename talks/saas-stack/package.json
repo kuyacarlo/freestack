@@ -1,0 +1,17 @@
+{
+  "name": "freestack-talk-saas-stack",
+  "version": "1.0.0",
+  "description": "Marp talk: SaaS free tiers + student unlocks (freestack companion)",
+  "main": "index.js",
+  "scripts": {
+    "watch": "marp -w -s src/",
+    "build": "marp src/main.md -o dist/index.html --html",
+    "build:pdf": "marp src/main.md -o dist/presentation.pdf --pdf --html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@marp-team/marp-cli": "^4.4.0"
+  }
+}

@@ -76,6 +76,10 @@ npx @kuyacarlo/freestack tool neon
 
 Override API base with `FREESTACK_API` (default production site).
 
+## Talks
+
+Marp workshop decks live in [`talks/`](talks/) (SaaS free-tier stack + student programs matrix). Catalog data still lives in `src/data/tools.ts`.
+
 ## Sibling list
 
 Markdown mirror (awesome.re style): [`awesome-freestack`](../awesome-freestack). Site `tools.ts` is source of truth for the directory UI.
